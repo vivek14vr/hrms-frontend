@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 10, "column": 0}, "map": {"version":3,"sources":["file:///Users/vivekraj/Desktop/hrms/frontend/app/page.tsx"],"sourcesContent":["import { redirect } from 'next/navigation';\nexport default function HomePage() { redirect('/login'); }\n"],"names":["HomePage"],"mappings":";;;;AAAA;AAAA;;AACe,SAASA;IAAa,IAAA,4aAAQ,EAAC;AAAW"}}]
-}

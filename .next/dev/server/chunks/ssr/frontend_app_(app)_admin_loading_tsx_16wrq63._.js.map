@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///Users/vivekraj/Desktop/hrms/frontend/app/(app)/admin/loading.tsx"],"sourcesContent":["import { LoadingSkeleton } from '@/components/ui';\nexport default function AdminLoading() { return <LoadingSkeleton rows={7} />; }\n"],"names":["AdminLoading","rows"],"mappings":";;;;;AAAA;;;AACe,SAASA;IAAiB,qBAAO,ydAAC,gJAAe;QAACC,MAAM;;;;;;AAAO"}}]
-}

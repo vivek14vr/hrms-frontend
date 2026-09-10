@@ -1,6 +1,0 @@
-{
-  "version": 3,
-  "sources": [],
-  "sections": [
-    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///Users/vivekraj/Desktop/hrms/frontend/app/(app)/error.tsx"],"sourcesContent":["'use client';\nimport { useEffect } from 'react';\nimport { ErrorState } from '@/components/ui';\nexport default function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) { useEffect(() => { console.error(error); }, [error]); return <ErrorState message=\"This workspace section ran into a problem.\" retry={reset} />; }\n"],"names":["Error","error","reset","console","message","retry"],"mappings":";;;;;AACA;AACA;;;AAFA;;;AAGe,SAASA,MAAM,EAAEC,KAAK,EAAEC,KAAK,EAA6D;;IAAI,IAAA,qZAAS;2BAAC;YAAQC,QAAQF,KAAK,CAACA;QAAQ;0BAAG;QAACA;KAAM;IAAG,qBAAO,waAAC,8IAAU;QAACG,SAAQ;QAA6CC,OAAOH;;;;;;AAAW;GAApOF;KAAAA"}}]
-}
