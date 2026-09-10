@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import type { PaymentStatus } from '@peopleos/types';
+import type { PaymentStatus } from '@/lib/types';
 import { api, formatMoney } from '@/lib/api';
 import { useDepartments, useEmployees, useSalarySlips } from '@/lib/queries';
 import {

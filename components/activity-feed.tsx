@@ -1,6 +1,6 @@
 import { ArrowUpRight, CalendarCheck2, CircleDollarSign, FileCheck2 } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
-import type { DashboardActivity } from '@peopleos/types';
+import type { DashboardActivity } from '@/lib/types';
 import { Card, EmptyState } from './ui';
 
 export function ActivityFeed({ items = [] }: { items?: DashboardActivity[] }) { if (!items.length) return <EmptyState title="No recent activity" description="Activity from your team will show up here." />; return <Card className="p-5 sm:p-6"><div className="mb-5 flex items-center justify-between"><div><h2 className="font-display text-xl">Recent activity</h2><p className="mt-1 text-xs text-[#85878d]">A quick pulse of what is moving.</p></div><ArrowUpRight className="h-5 w-5 text-[#a3a4a8]" /></div><div className="space-y-4">{items.slice(0, 5).map((item) => { const Icon = item.type === 'payroll' ? CircleDollarSign : item.type === 'attendance' ? CalendarCheck2 : FileCheck2; return <div key={`${item.type}-${item.id}`} className="flex gap-3"><div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-[#f1edff] text-[#7353ba]"><Icon className="h-4 w-4" /></div><div className="min-w-0 flex-1"><p className="truncate text-sm font-semibold">{item.title}</p><p className="mt-0.5 truncate text-xs capitalize text-[#85878d]">{item.description}</p></div><time className="shrink-0 text-[11px] text-[#a0a1a6]">{formatDistanceToNow(new Date(item.time), { addSuffix: true })}</time></div>; })}</div></Card>; }

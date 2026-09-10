@@ -6,7 +6,7 @@ import { useParams } from 'next/navigation';
 import { format } from 'date-fns';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-import type { PaymentStatus } from '@peopleos/types';
+import type { PaymentStatus } from '@/lib/types';
 import { api } from '@/lib/api';
 import { SalarySlipView } from '@/components/salary-slip-view';
 import { Button, Card, ErrorState, FormField, Input, LoadingSkeleton, Select } from '@/components/ui';

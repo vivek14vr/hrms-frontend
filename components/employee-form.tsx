@@ -6,10 +6,10 @@ import Link from 'next/link';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { toast } from 'sonner';
-import { employeeSchema } from '@peopleos/types';
+import { employeeSchema } from '@/lib/types';
 import { api } from '@/lib/api';
 import { useDepartments } from '@/lib/queries';
-import type { Employee } from '@peopleos/types';
+import type { Employee } from '@/lib/types';
 import { Button, Card, FormField, Input, PageHeader, Select, Spinner } from './ui';
 
 type FormValues = { firstName: string; lastName: string; email: string; phone?: string; department: string; designation: string; employmentType: 'FULL_TIME' | 'PART_TIME' | 'CONTRACT'; employmentStatus: 'ACTIVE' | 'ON_LEAVE' | 'INACTIVE' | 'TERMINATED'; joiningDate: string; managerName?: string; location?: string; baseSalary: number };

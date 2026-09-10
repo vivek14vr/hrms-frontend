@@ -1,4 +1,4 @@
-import type { AuthResponse, AttendanceRecord, DashboardActivity, DashboardSummary, Employee, SalarySlip, User } from '@peopleos/types';
+import type { AuthResponse, AttendanceRecord, DashboardActivity, DashboardSummary, Employee, SalarySlip, User } from './types';
 export type Page<T> = { items: T[]; total: number; page: number; limit: number; totalPages: number };
 const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:3001/api';
 async function request<T>(path: string, init?: RequestInit): Promise<T> { const response = await fetch(`${API_URL}${path}`, { ...init, credentials: 'include', headers: { 'Content-Type': 'application/json', ...(init?.headers ?? {}) }, cache: 'no-store' }); if (!response.ok) { if (response.status === 401 && typeof window !== 'undefined' && !window.location.pathname.endsWith('/login')) window.location.href = '/login'; const body = await response.json().catch(() => ({})); throw new Error(Array.isArray(body.message) ? body.message[0] : body.message ?? 'Something went wrong'); } if (response.status === 204) return undefined as T; return response.json() as Promise<T>; }

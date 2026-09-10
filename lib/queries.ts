@@ -1,7 +1,7 @@
 'use client';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { api } from './api';
-import type { UserRole } from '@peopleos/types';
+import type { UserRole } from './types';
 export function useSession() { return useQuery({ queryKey: ['session'], queryFn: api.me, retry: false }); }
 export function useLogin() { const client = useQueryClient(); return useMutation({ mutationFn: api.login, onSuccess: (data) => client.setQueryData(['session'], data) }); }
 export function useLogout() { const client = useQueryClient(); return useMutation({ mutationFn: api.logout, onSuccess: () => { client.clear(); if (typeof window !== 'undefined') window.location.href = '/login'; } }); }

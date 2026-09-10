@@ -5,7 +5,7 @@ import { format } from 'date-fns';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import type { AttendanceRecord } from '@peopleos/types';
+import type { AttendanceRecord } from '@/lib/types';
 import { api } from '@/lib/api';
 import { useAttendance, useDepartments, useEmployees } from '@/lib/queries';
 import {

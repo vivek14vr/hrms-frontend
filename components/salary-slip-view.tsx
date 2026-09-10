@@ -2,7 +2,7 @@
 
 import { Download, Printer, WalletCards } from 'lucide-react';
 import { format } from 'date-fns';
-import type { SalarySlip } from '@peopleos/types';
+import type { SalarySlip } from '@/lib/types';
 import { formatMoney } from '@/lib/api';
 import { Badge, Button, Card } from './ui';
 
