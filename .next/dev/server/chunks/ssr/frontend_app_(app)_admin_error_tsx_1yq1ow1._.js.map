@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 4, "column": 0}, "map": {"version":3,"sources":["file:///Users/vivekraj/Desktop/hrms/frontend/app/(app)/admin/error.tsx"],"sourcesContent":["'use client';\nimport { ErrorState } from '@/components/ui';\nexport default function AdminError({ reset }: { error: Error & { digest?: string }; reset: () => void }) { return <ErrorState message=\"The admin section could not load.\" retry={reset} />; }\n"],"names":["AdminError","reset","message","retry"],"mappings":";;;;;AACA;AADA;;;AAEe,SAASA,WAAW,EAAEC,KAAK,EAA6D;IAAI,qBAAO,ydAAC,2IAAU;QAACC,SAAQ;QAAoCC,OAAOF;;;;;;AAAW"}}]
+}

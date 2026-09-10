@@ -1,0 +1,16 @@
+
+> @peopleos/web@0.1.0 lint /Users/vivekraj/Desktop/hrms/frontend
+> eslint .
+
+
+/Users/vivekraj/Desktop/hrms/frontend/components/employee-form.tsx
+  16:1518  warning  Do not use `window.location.href` to navigate to internal Next.js pages. Use `redirect()` in the render phase, or `useRouter().push()` in Client Components' event handlers instead. See: https://nextjs.org/docs/messages/no-location-assign-relative-destination  @next/next/no-location-assign-relative-destination
+
+/Users/vivekraj/Desktop/hrms/frontend/lib/api.ts
+  4:387  warning  Do not use `window.location.href` to navigate to internal Next.js pages. Use `redirect()` in the render phase, or `useRouter().push()` in Client Components' event handlers instead. See: https://nextjs.org/docs/messages/no-location-assign-relative-destination  @next/next/no-location-assign-relative-destination
+
+/Users/vivekraj/Desktop/hrms/frontend/lib/queries.ts
+  7:179  warning  Do not use `window.location.href` to navigate to internal Next.js pages. Use `redirect()` in the render phase, or `useRouter().push()` in Client Components' event handlers instead. See: https://nextjs.org/docs/messages/no-location-assign-relative-destination  @next/next/no-location-assign-relative-destination
+
+✖ 3 problems (0 errors, 3 warnings)
+
