@@ -105,7 +105,7 @@ self.__SERVER_FILES_MANIFEST={
         "transform": "lodash/{{member}}"
       }
     },
-    "outputFileTracingRoot": "/Users/vivekraj/Desktop/hrms",
+    "outputFileTracingRoot": "/Users/vivekraj/Desktop/hrms/frontend",
     "enablePrerenderSourceMaps": true,
     "cacheComponents": false,
     "cacheLife": {
@@ -320,15 +320,15 @@ self.__SERVER_FILES_MANIFEST={
     "htmlLimitedBots": "[\\w-]+-Google|Google-[\\w-]+|Chrome-Lighthouse|Slurp|DuckDuckBot|baiduspider|yandex|sogou|bitlybot|tumblr|vkShare|quora link preview|redditbot|ia_archiver|Bingbot|BingPreview|applebot|facebookexternalhit|facebookcatalog|Twitterbot|LinkedInBot|Slackbot|Discordbot|WhatsApp|SkypeUriPreview|Yeti|googleweblight",
     "bundlePagesRouterDependencies": false,
     "configFileName": "next.config.ts",
-    "repoRoot": "/Users/vivekraj/Desktop/hrms",
+    "repoRoot": "/Users/vivekraj/Desktop/hrms/frontend",
     "turbopack": {
-      "root": "/Users/vivekraj/Desktop/hrms"
+      "root": "/Users/vivekraj/Desktop/hrms/frontend"
     },
     "distDirRoot": ".next",
     "supportsImmutableAssets": false
   },
   "appDir": "/Users/vivekraj/Desktop/hrms/frontend",
-  "relativeAppDir": "frontend",
+  "relativeAppDir": "",
   "files": [
     ".next/package.json",
     ".next/routes-manifest.json",
