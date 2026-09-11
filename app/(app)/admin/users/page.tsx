@@ -22,12 +22,11 @@ import {
   TableHeader,
 } from '@/components/ui';
 
-const demoResetPassword = 'Welcome@123';
-
 export default function AdminUsersPage() {
   const users = useUsers();
   const employees = useEmployees(new URLSearchParams('limit=100'));
   const [showForm, setShowForm] = useState(false);
+  const [resetLinks, setResetLinks] = useState<Record<string, string>>({});
   const client = useQueryClient();
   const create = useMutation({
     mutationFn: api.createUser,
@@ -46,9 +45,12 @@ export default function AdminUsersPage() {
     },
     onError: (error) => toast.error(error.message),
   });
-  const reset = useMutation({
-    mutationFn: (id: string) => api.updateUser(id, { password: demoResetPassword }),
-    onSuccess: () => toast.success(`Password reset to ${demoResetPassword}`),
+  const resetLink = useMutation({
+    mutationFn: api.createPasswordResetLink,
+    onSuccess: (data, id) => {
+      setResetLinks((current) => ({ ...current, [id]: data.resetUrl }));
+      toast.success('One-time setup link generated. Share it securely.');
+    },
     onError: (error) => toast.error(error.message),
   });
   const submit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -81,7 +83,7 @@ export default function AdminUsersPage() {
           <form className="grid gap-4 md:grid-cols-3" onSubmit={submit}>
             <FormField label="Name"><Input name="name" required /></FormField>
             <FormField label="Email"><Input name="email" type="email" required /></FormField>
-            <FormField label="Temporary password"><Input name="password" minLength={8} required defaultValue={demoResetPassword} /></FormField>
+            <FormField label="Initial password"><Input name="password" minLength={8} required /></FormField>
             <FormField label="Role">
               <Select name="role" defaultValue="EMPLOYEE">
                 <option value="EMPLOYEE">Employee</option>
@@ -119,9 +121,10 @@ export default function AdminUsersPage() {
                   <TableCell><StatusBadge status={user.isActive ? 'ACTIVE' : 'INACTIVE'} /></TableCell>
                   <TableCell>
                     <div className="flex justify-end gap-2">
-                      <Button variant="outline" size="sm" disabled={reset.isPending} onClick={() => reset.mutate(user.id)}>Reset password</Button>
                       <Button variant="outline" size="sm" disabled={status.isPending} onClick={() => status.mutate({ id: user.id, isActive: !user.isActive })}>{user.isActive ? 'Deactivate' : 'Activate'}</Button>
+                      <Button variant="outline" size="sm" disabled={resetLink.isPending || !user.isActive} onClick={() => resetLink.mutate(user.id)}>{resetLink.isPending ? 'Generating…' : 'Setup link'}</Button>
                     </div>
+                    {resetLinks[user.id] && <Input readOnly aria-label={`Password setup link for ${user.name}`} value={resetLinks[user.id]} className="mt-2 text-xs" onFocus={(event) => event.currentTarget.select()} />}
                   </TableCell>
                 </tr>
               ))}

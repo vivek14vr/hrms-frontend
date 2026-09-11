@@ -6,9 +6,9 @@ import { useState } from 'react';
 import { format } from 'date-fns';
 import { toast } from 'sonner';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import type { PaymentStatus } from '@/lib/types';
+import type { PaymentStatus, PayrollRunStatus } from '@/lib/types';
 import { api, formatMoney } from '@/lib/api';
-import { useDepartments, useEmployees, useSalarySlips } from '@/lib/queries';
+import { useDepartments, useEmployees, usePayrollRuns, useSalarySlips } from '@/lib/queries';
 import {
   Button,
   Card,
@@ -37,6 +37,7 @@ export default function AdminPayrollPage() {
   if (department) params.set('department', department);
 
   const slips = useSalarySlips(params);
+  const runs = usePayrollRuns();
   const employees = useEmployees(new URLSearchParams('limit=100'));
   const departments = useDepartments();
   const client = useQueryClient();
@@ -62,6 +63,17 @@ export default function AdminPayrollPage() {
     },
     onError: (error) => toast.error(error.message),
   });
+  const createRun = useMutation({
+    mutationFn: () => api.createPayrollRun({ month: Number(month), year: Number(year) }),
+    onSuccess: () => { toast.success('Payroll run created'); client.invalidateQueries({ queryKey: ['payroll-runs'] }); client.invalidateQueries({ queryKey: ['salary-slips'] }); },
+    onError: (error) => toast.error(error.message),
+  });
+  const advanceRun = useMutation({
+    mutationFn: ({ id, status }: { id: string; status: PayrollRunStatus }) => api.updatePayrollRunStatus(id, status),
+    onSuccess: () => { toast.success('Payroll run advanced'); client.invalidateQueries({ queryKey: ['payroll-runs'] }); client.invalidateQueries({ queryKey: ['salary-slips'] }); },
+    onError: (error) => toast.error(error.message),
+  });
+  const nextStatus: Partial<Record<PayrollRunStatus, PayrollRunStatus>> = { DRAFT: 'REVIEW', REVIEW: 'APPROVED', APPROVED: 'PROCESSED', PROCESSED: 'PAID' };
 
   return (
     <div>
@@ -76,6 +88,11 @@ export default function AdminPayrollPage() {
           </Button>
         }
       />
+
+      <Card className="mb-5 p-5 sm:p-6">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"><div><h2 className="font-display text-xl">Payroll runs</h2><p className="mt-1 text-xs text-[#85878d]">Move a pay period through review and lock it before payment.</p></div><Button size="sm" onClick={() => createRun.mutate()} disabled={createRun.isPending || !month || !year}>{createRun.isPending ? 'Creating…' : `Create ${month}/${year} run`}</Button></div>
+        {runs.isLoading ? <div className="mt-5"><Spinner /></div> : runs.isError ? <div className="mt-5"><ErrorState message={runs.error.message} retry={() => runs.refetch()} /></div> : runs.data?.length ? <div className="mt-5 space-y-2">{runs.data.slice(0, 6).map((run) => <div key={run.id} className="flex flex-col gap-3 rounded-xl border border-[#eeeae4] p-4 sm:flex-row sm:items-center"><div className="min-w-0 flex-1"><div className="flex flex-wrap items-center gap-2"><p className="text-sm font-bold">{format(new Date(run.year, run.month - 1, 1), 'MMMM yyyy')}</p><StatusBadge status={run.status} /></div><p className="mt-1 text-xs text-[#85878d]">{run.slipCount} slip{run.slipCount === 1 ? '' : 's'} · Net {formatMoney(run.totalNet)}</p></div>{nextStatus[run.status] && <Button size="sm" variant="outline" disabled={advanceRun.isPending || (run.status === 'DRAFT' && run.slipCount === 0)} onClick={() => advanceRun.mutate({ id: run.id, status: nextStatus[run.status]! })}>Move to {nextStatus[run.status]}</Button>}</div>)}</div> : <p className="mt-5 text-sm text-[#85878d]">No payroll runs yet. Create one after salary slips are ready.</p>}
+      </Card>
 
       {showForm && (
         <Card className="mb-5 border-[#ff725c]/30 bg-[#fffaf1] p-5">

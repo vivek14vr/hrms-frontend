@@ -1,6 +1,6 @@
 'use client';
 
-import { BarChart3, Bell, BriefcaseBusiness, CalendarDays, ChevronRight, CircleHelp, FileText, LayoutDashboard, LogOut, Menu, Settings2, ShieldCheck, Sparkles, Users, WalletCards, X } from 'lucide-react';
+import { BarChart3, Bell, BriefcaseBusiness, CalendarDays, ChevronRight, CircleHelp, ClipboardList, FileText, LayoutDashboard, LogOut, Menu, Settings2, ShieldCheck, Sparkles, Users, WalletCards, X } from 'lucide-react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
@@ -10,12 +10,14 @@ import { Avatar, cn, IconButton } from './ui';
 const employeeNav = [
   { href: '/dashboard', label: 'Overview', icon: LayoutDashboard },
   { href: '/attendance', label: 'My attendance', icon: CalendarDays },
+  { href: '/leave', label: 'My leave', icon: ClipboardList },
   { href: '/profile', label: 'My profile', icon: BriefcaseBusiness },
 ];
 const adminNav = [
   { href: '/admin', label: 'Overview', icon: LayoutDashboard },
   { href: '/admin/employees', label: 'Employees', icon: Users },
   { href: '/admin/attendance', label: 'Attendance', icon: CalendarDays },
+  { href: '/admin/leave', label: 'Leave', icon: ClipboardList },
   { href: '/admin/payroll', label: 'Payroll', icon: WalletCards },
   { href: '/admin/users', label: 'Users & access', icon: ShieldCheck },
 ];

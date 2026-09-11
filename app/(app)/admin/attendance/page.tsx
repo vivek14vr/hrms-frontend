@@ -7,7 +7,7 @@ import { toast } from 'sonner';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import type { AttendanceRecord } from '@/lib/types';
 import { api } from '@/lib/api';
-import { useAttendance, useDepartments, useEmployees } from '@/lib/queries';
+import { useAttendance, useAttendanceCorrections, useDepartments, useEmployees } from '@/lib/queries';
 import {
   Button,
   Card,
@@ -34,6 +34,7 @@ export default function AdminAttendancePage() {
   if (department) params.set('department', department);
   if (status) params.set('status', status);
   const records = useAttendance(params);
+  const corrections = useAttendanceCorrections('PENDING');
   const employees = useEmployees(new URLSearchParams('limit=100'));
   const departments = useDepartments();
   const client = useQueryClient();
@@ -54,6 +55,11 @@ export default function AdminAttendancePage() {
       setEditingRecord(null);
       setShowForm(false);
     },
+    onError: (error) => toast.error(error.message),
+  });
+  const review = useMutation({
+    mutationFn: ({ id, status }: { id: string; status: 'APPROVED' | 'REJECTED' }) => api.reviewAttendanceCorrection(id, { status }),
+    onSuccess: (_, variables) => { toast.success(variables.status === 'APPROVED' ? 'Correction approved' : 'Correction rejected'); client.invalidateQueries({ queryKey: ['attendance'] }); },
     onError: (error) => toast.error(error.message),
   });
 
@@ -90,6 +96,13 @@ export default function AdminAttendancePage() {
         description="Review time records, spot exceptions, and keep corrections moving."
         action={<div className="flex gap-2"><Button variant="outline" onClick={exportCsv}><Download className="h-4 w-4" />Export CSV</Button><Button onClick={openCreate}><Plus className="h-4 w-4" />Mark attendance</Button></div>}
       />
+
+      {corrections.data?.length ? (
+        <Card className="mb-5 p-5">
+          <div className="mb-4"><p className="text-xs font-bold uppercase tracking-[0.13em] text-[#ff725c]">Needs review</p><h2 className="mt-1 font-display text-xl">Attendance correction requests</h2></div>
+          <div className="space-y-2">{corrections.data.map((item) => <div key={item.id} className="flex flex-wrap items-center justify-between gap-4 rounded-xl border border-[#eeeae4] px-4 py-3"><div><p className="text-sm font-bold">{item.employee ? `${item.employee.firstName} ${item.employee.lastName}` : 'Employee'} · {format(new Date(item.date), 'd MMM yyyy')}</p><p className="mt-1 text-xs text-[#85878d]">{item.status.replaceAll('_', ' ').toLowerCase()} · {item.reason}</p></div><div className="flex gap-2"><Button size="sm" variant="outline" disabled={review.isPending} onClick={() => review.mutate({ id: item.id, status: 'REJECTED' })}>Reject</Button><Button size="sm" disabled={review.isPending} onClick={() => review.mutate({ id: item.id, status: 'APPROVED' })}>Approve</Button></div></div>)}</div>
+        </Card>
+      ) : null}
 
       {showForm && (
         <Card className="mb-5 border-[#ff725c]/30 bg-[#fffaf1] p-5">
